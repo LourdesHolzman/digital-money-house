@@ -28,7 +28,7 @@ export function generateCVU(): string {
 }
 
 export function maskCardNumber(cardNumber: string): string {
-  if (cardNumber.length < 4) return cardNumber
+  if (cardNumber.length <= 4) return cardNumber
   return `**** **** **** ${cardNumber.slice(-4)}`
 }
 
@@ -49,7 +49,7 @@ export function validateCVV(cvv: string): boolean {
 export function generateAlias(): string {
   const words = [
     'AGUA', 'AIRE', 'AMOR', 'AZUL', 'CASA', 'CIELO', 'FUEGO', 'LUNA', 'MAR', 'PAZ',
-    'ROCA', 'SOL', 'VIDA', 'VIENTO', 'ARBOL', 'FLOR', 'NUBE', 'HIERBA', 'ESTRELLA', 'MONTAÑA',
+    'ROCA', 'SOL', 'VIDA', 'VIENTO', 'ARBOL', 'FLOR', 'NUBE', 'HIERBA', 'ESTRELLA', 'MONTANA',
     'RIO', 'LAGO', 'ARENA', 'CAMPO', 'TIERRA', 'PIEDRA', 'HOJA', 'RAMA', 'RAIZ', 'FRUTO'
   ]
 
@@ -64,10 +64,6 @@ export function getCardType(cardNumber: string): 'visa' | 'mastercard' | 'amex' 
     return 'visa'
   }
 
-  if (cleanNumber.startsWith('5') || cleanNumber.startsWith('2')) {
-    return 'mastercard'
-  }
-
   if (cleanNumber.startsWith('34') || cleanNumber.startsWith('37')) {
     return 'amex'
   }
@@ -78,6 +74,10 @@ export function getCardType(cardNumber: string): 'visa' | 'mastercard' | 'amex' 
 
   if (cleanNumber.startsWith('58') || cleanNumber.startsWith('59')) {
     return 'naranja'
+  }
+
+  if (cleanNumber.startsWith('5') || cleanNumber.startsWith('2')) {
+    return 'mastercard'
   }
 
   return 'unknown'
