@@ -299,7 +299,8 @@ export default function ActivityPage() {
       return (
         <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
           <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            <line x1="12" y1="6" x2="12" y2="18" strokeLinecap="round" strokeWidth={2} />
+            <line x1="6" y1="12" x2="18" y2="12" strokeLinecap="round" strokeWidth={2} />
           </svg>
         </div>
       )

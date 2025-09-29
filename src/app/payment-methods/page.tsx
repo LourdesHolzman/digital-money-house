@@ -18,6 +18,7 @@ export default function PaymentMethodsPage() {
   const [showAddForm, setShowAddForm] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [isFlipped, setIsFlipped] = useState(false)
 
   const {
     register,
@@ -31,6 +32,7 @@ export default function PaymentMethodsPage() {
   const cardNumber = watch('cardNumber')
   const cardHolder = watch('cardHolder')
   const expiryDate = watch('expiryDate')
+  const cvv = watch('cvv')
   const cardType = watch('type')
 
   const onSubmit = async (data: PaymentMethodForm) => {
@@ -205,7 +207,9 @@ export default function PaymentMethodsPage() {
                     cardNumber={cardNumber || ''}
                     cardHolder={cardHolder || ''}
                     expiryDate={expiryDate || ''}
+                    cvv={cvv || ''}
                     type={cardType}
+                    flipped={isFlipped}
                   />
                 </div>
                 <div className="space-y-6">
@@ -271,6 +275,8 @@ export default function PaymentMethodsPage() {
                             validate: (value) =>
                               validateCVV(value) || 'CVV inválido',
                           })}
+                          onFocus={() => setIsFlipped(true)}
+                          onBlur={() => setIsFlipped(false)}
                         />
                         {errors.cvv && (
                           <p className="text-red-600 text-sm mt-1">{errors.cvv.message}</p>
