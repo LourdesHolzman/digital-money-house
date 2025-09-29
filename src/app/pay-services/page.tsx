@@ -79,7 +79,7 @@ export default function PayServicesPage() {
             <h1 className="text-3xl font-bold text-dmh-secondary">
               Pagar Servicios
             </h1>
-            <p className="text-dmh-primary mt-2">
+            <p className="text-dmh-gray-600 mt-2">
               Selecciona el servicio que deseas pagar
             </p>
           </div>
