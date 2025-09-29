@@ -1,6 +1,6 @@
 # Digital Money House
 
-Aplicación web de billetera virtual desarrollada con Next.js, React y TypeScript.
+Aplicación web de billetera virtual desarrollada con Next.js, React y TypeScript para gestión de dinero digital.
 
 ## Características
 
