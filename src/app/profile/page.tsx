@@ -26,7 +26,7 @@ export default function ProfilePage() {
     try {
       await navigator.clipboard.writeText(user.cvu)
       setCopiedCVU(true)
-      setTimeout(() => setCopiedCVU(false), 2000)
+      setTimeout(() => setCopiedCVU(false), 3000)
     } catch (err) {
       console.error('Error copying CVU:', err)
     }
@@ -36,7 +36,7 @@ export default function ProfilePage() {
     try {
       await navigator.clipboard.writeText(user.alias)
       setCopiedAlias(true)
-      setTimeout(() => setCopiedAlias(false), 2000)
+      setTimeout(() => setCopiedAlias(false), 3000)
     } catch (err) {
       console.error('Error copying alias:', err)
     }
