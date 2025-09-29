@@ -13,8 +13,7 @@ import { maskCardNumber, validateCardNumber, validateCVV, getCardType, getCardTy
 type PaymentMethodForm = Omit<PaymentMethod, 'id' | 'userId' | 'createdAt' | 'isDefault'>
 
 export default function PaymentMethodsPage() {
-  const { user } = useAuthStore()
-  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([])
+  const { user, paymentMethods, addPaymentMethod, removePaymentMethod, setDefaultPaymentMethod } = useAuthStore()
   const [showAddForm, setShowAddForm] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -48,15 +47,7 @@ export default function PaymentMethodsPage() {
     try {
       await new Promise(resolve => setTimeout(resolve, 1000))
 
-      const newPaymentMethod: PaymentMethod = {
-        id: Date.now().toString(),
-        userId: user!.id,
-        ...data,
-        isDefault: paymentMethods.length === 0,
-        createdAt: new Date(),
-      }
-
-      setPaymentMethods(prev => [...prev, newPaymentMethod])
+      addPaymentMethod(data)
       setShowAddForm(false)
       reset()
     } catch (err) {
@@ -67,17 +58,12 @@ export default function PaymentMethodsPage() {
     }
   }
 
-  const removePaymentMethod = (id: string) => {
-    setPaymentMethods(prev => prev.filter(pm => pm.id !== id))
+  const handleRemovePaymentMethod = (id: string) => {
+    removePaymentMethod(id)
   }
 
-  const setAsDefault = (id: string) => {
-    setPaymentMethods(prev =>
-      prev.map(pm => ({
-        ...pm,
-        isDefault: pm.id === id,
-      }))
-    )
+  const handleSetAsDefault = (id: string) => {
+    setDefaultPaymentMethod(id)
   }
 
   if (!user) {
@@ -154,7 +140,7 @@ export default function PaymentMethodsPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setAsDefault(method.id)}
+                      onClick={() => handleSetAsDefault(method.id)}
                     >
                       Hacer principal
                     </Button>
@@ -162,7 +148,7 @@ export default function PaymentMethodsPage() {
                   <Button
                     variant="destructive"
                     size="sm"
-                    onClick={() => removePaymentMethod(method.id)}
+                    onClick={() => handleRemovePaymentMethod(method.id)}
                   >
                     Eliminar
                   </Button>

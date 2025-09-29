@@ -2,17 +2,21 @@
 
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { User, AuthUser, RegisterUser } from '@/types'
+import { User, AuthUser, RegisterUser, PaymentMethod } from '@/types'
 import { generateCVU, generateAlias } from '@/lib/utils'
 
 interface AuthState {
   user: User | null
   isAuthenticated: boolean
+  paymentMethods: PaymentMethod[]
   login: (credentials: AuthUser) => Promise<boolean>
   register: (userData: RegisterUser) => Promise<boolean>
   logout: () => void
   updateUser: (updates: Partial<User>) => void
   updateBalance: (amount: number) => void
+  addPaymentMethod: (paymentMethod: Omit<PaymentMethod, 'id' | 'userId' | 'createdAt' | 'isDefault'>) => void
+  removePaymentMethod: (id: string) => void
+  setDefaultPaymentMethod: (id: string) => void
 }
 
 const mockUsers: User[] = [
@@ -34,6 +38,7 @@ export const useAuthStore = create<AuthState>()(
     (set, get) => ({
       user: null,
       isAuthenticated: false,
+      paymentMethods: [],
 
       login: async (credentials: AuthUser) => {
         await new Promise(resolve => setTimeout(resolve, 1000))
@@ -103,6 +108,35 @@ export const useAuthStore = create<AuthState>()(
             mockUsers[userIndex] = updatedUser
           }
         }
+      },
+
+      addPaymentMethod: (paymentMethodData) => {
+        const { user, paymentMethods } = get()
+        if (user) {
+          const newPaymentMethod: PaymentMethod = {
+            id: Date.now().toString(),
+            userId: user.id,
+            ...paymentMethodData,
+            isDefault: paymentMethods.length === 0,
+            createdAt: new Date(),
+          }
+          set({ paymentMethods: [...paymentMethods, newPaymentMethod] })
+        }
+      },
+
+      removePaymentMethod: (id: string) => {
+        const { paymentMethods } = get()
+        set({ paymentMethods: paymentMethods.filter(pm => pm.id !== id) })
+      },
+
+      setDefaultPaymentMethod: (id: string) => {
+        const { paymentMethods } = get()
+        set({
+          paymentMethods: paymentMethods.map(pm => ({
+            ...pm,
+            isDefault: pm.id === id,
+          }))
+        })
       },
     }),
     {

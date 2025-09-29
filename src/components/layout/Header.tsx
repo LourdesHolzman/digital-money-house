@@ -72,12 +72,12 @@ export function Header() {
 
           {user && (
             <div className="flex items-center space-x-3">
-              <Link href="/profile">
+              <Link href="/dashboard">
                 <div className="px-3 py-1 bg-dmh-primary rounded-lg flex items-center justify-center text-dmh-secondary font-bold text-sm cursor-pointer hover:bg-dmh-primary-dark transition-colors duration-200">
                   {getInitials(user.firstName + ' ' + user.lastName)}
                 </div>
               </Link>
-              <Link href="/profile">
+              <Link href="/dashboard">
                 <span className="text-white font-medium text-base hidden sm:block cursor-pointer hover:text-dmh-primary transition-colors">
                   Hola, {user.firstName} {user.lastName}
                 </span>

@@ -18,6 +18,7 @@ export default function ProfilePage() {
     firstName: user?.firstName || '',
     lastName: user?.lastName || '',
     phone: user?.phone || '',
+    cuit: '20350269798',
     password: ''
   })
 
@@ -49,6 +50,7 @@ export default function ProfilePage() {
       firstName: user?.firstName || '',
       lastName: user?.lastName || '',
       phone: user?.phone || '',
+      cuit: '20350269798',
     })
   }
 
@@ -63,6 +65,8 @@ export default function ProfilePage() {
         updateData.lastName = editValues.lastName
       } else if (field === 'phone') {
         updateData.phone = editValues.phone
+      } else if (field === 'cuit') {
+        updateData.cuit = editValues.cuit
       } else if (field === 'password') {
         updateData.password = editValues.password
       }
@@ -84,6 +88,7 @@ export default function ProfilePage() {
       firstName: user?.firstName || '',
       lastName: user?.lastName || '',
       phone: user?.phone || '',
+      cuit: '20350269798',
       password: ''
     })
   }
@@ -174,9 +179,57 @@ export default function ProfilePage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-dmh-gray-700 mb-1">CUIT</label>
-                <div className="text-lg text-dmh-gray-600">20350269798</div>
+              <div className="flex items-center justify-between">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-dmh-gray-700 mb-1">CUIT</label>
+                  {editingField === 'cuit' ? (
+                    <input
+                      type="text"
+                      value={editValues.cuit}
+                      onChange={(e) => setEditValues({...editValues, cuit: e.target.value})}
+                      className="w-full px-3 py-2 border border-dmh-gray-300 rounded-lg text-dmh-gray-900 focus:border-dmh-primary focus:outline-none focus:ring-2 focus:ring-dmh-primary"
+                      placeholder="CUIT"
+                    />
+                  ) : (
+                    <div className="text-lg text-dmh-gray-600">{editValues.cuit}</div>
+                  )}
+                </div>
+                {editingField === 'cuit' ? (
+                  <div className="flex gap-2 ml-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-green-600 hover:text-green-700 cursor-pointer"
+                      onClick={() => handleSaveField('cuit')}
+                      disabled={isLoading}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-red-600 hover:text-red-700 cursor-pointer"
+                      onClick={handleCancelEdit}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-dmh-gray-500 hover:text-dmh-secondary cursor-pointer"
+                    onClick={() => handleEditField('cuit')}
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                  </Button>
+                )}
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex-1">
