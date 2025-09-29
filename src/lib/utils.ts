@@ -57,7 +57,7 @@ export function generateAlias(): string {
   return `${getRandomWord()}.${getRandomWord()}.${getRandomWord()}`
 }
 
-export function getCardType(cardNumber: string): 'visa' | 'mastercard' | 'amex' | 'unknown' {
+export function getCardType(cardNumber: string): 'visa' | 'mastercard' | 'amex' | 'cabal' | 'naranja' | 'unknown' {
   const cleanNumber = cardNumber.replace(/\s/g, '')
 
   if (cleanNumber.startsWith('4')) {
@@ -72,6 +72,14 @@ export function getCardType(cardNumber: string): 'visa' | 'mastercard' | 'amex' 
     return 'amex'
   }
 
+  if (cleanNumber.startsWith('60') || cleanNumber.startsWith('61') || cleanNumber.startsWith('62')) {
+    return 'cabal'
+  }
+
+  if (cleanNumber.startsWith('58') || cleanNumber.startsWith('59')) {
+    return 'naranja'
+  }
+
   return 'unknown'
 }
 
@@ -80,6 +88,8 @@ export function getCardTypeName(type: string): string {
     visa: 'Visa',
     mastercard: 'Mastercard',
     amex: 'American Express',
+    cabal: 'Cabal',
+    naranja: 'Naranja',
     unknown: 'Desconocida'
   }
 

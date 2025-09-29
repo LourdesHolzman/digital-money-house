@@ -14,7 +14,7 @@ export function CardPreview({ cardNumber = '', cardHolder = '', expiryDate = '' 
 
   const displayNumber = cardNumber ?
     cardNumber.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim() :
-    '4720 3900 0000 0000'
+    '6011 1234 5678 9012'
 
   const displayHolder = cardHolder.toUpperCase() || 'MAURICIO BRITO'
   const displayExpiry = expiryDate || '20/28'
@@ -40,10 +40,22 @@ export function CardPreview({ cardNumber = '', cardHolder = '', expiryDate = '' 
             AMERICAN EXPRESS
           </div>
         )
+      case 'cabal':
+        return (
+          <div className="text-white font-bold text-lg tracking-wider">
+            CABAL
+          </div>
+        )
+      case 'naranja':
+        return (
+          <div className="text-orange-400 font-bold text-lg tracking-wider">
+            NARANJA
+          </div>
+        )
       default:
         return (
-          <div className="text-white font-bold text-lg tracking-wider italic">
-            VISA
+          <div className="text-white font-bold text-lg tracking-wider">
+            CABAL
           </div>
         )
     }

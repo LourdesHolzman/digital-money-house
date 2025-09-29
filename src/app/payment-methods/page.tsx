@@ -24,6 +24,7 @@ export default function PaymentMethodsPage() {
     handleSubmit,
     reset,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<PaymentMethodForm>()
 
@@ -56,7 +57,6 @@ export default function PaymentMethodsPage() {
       setPaymentMethods(prev => [...prev, newPaymentMethod])
       setShowAddForm(false)
       reset()
-      setDetectedCardType('')
     } catch (err) {
       console.error('Error adding payment method:', err)
       setError('Error al agregar la tarjeta. Intenta nuevamente.')
@@ -214,7 +214,7 @@ export default function PaymentMethodsPage() {
                     <div>
                       <input
                         type="text"
-                        placeholder="47203900000000000"
+                        placeholder="6011123456789012"
                         maxLength={19}
                         className="w-full rounded-lg border border-dmh-gray-300 px-4 py-3 text-dmh-gray-900 focus:border-dmh-primary focus:outline-none focus:ring-2 focus:ring-dmh-primary bg-white"
                         {...register('cardNumber', {
@@ -223,8 +223,9 @@ export default function PaymentMethodsPage() {
                             validateCardNumber(value) || 'Número de tarjeta inválido',
                         })}
                         onChange={(e) => {
-                          const value = e.target.value.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim()
-                          e.target.value = value
+                          const rawValue = e.target.value.replace(/\s/g, '')
+                          const formattedValue = rawValue.replace(/(.{4})/g, '$1 ').trim()
+                          setValue('cardNumber', formattedValue)
                         }}
                       />
                       {errors.cardNumber && (
@@ -251,7 +252,7 @@ export default function PaymentMethodsPage() {
                             if (value.length >= 2) {
                               value = value.substring(0, 2) + '/' + value.substring(2, 4)
                             }
-                            e.target.value = value
+                            setValue('expiryDate', value)
                           }}
                         />
                         {errors.expiryDate && (
