@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  # Development version with hot reload
+  app-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: digital-money-house-dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    restart: unless-stopped
+    depends_on:
+      - redis-dev
+    networks:
+      - dmh-dev-network
+
+  # Redis for development
+  redis-dev:
+    image: redis:7-alpine
+    container_name: dmh-redis-dev
+    ports:
+      - "6379:6379"
+    command: redis-server
+    restart: unless-stopped
+    networks:
+      - dmh-dev-network
+
+networks:
+  dmh-dev-network:
+    driver: bridge
